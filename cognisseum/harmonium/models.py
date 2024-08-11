@@ -38,11 +38,11 @@ class Enharmonic(Pragmon):
     tuning_system = models.ForeignKey(TuningSystem, on_delete=models.RESTRICT)
 
 
-class Staff(Pragmon):
+class Clef(Pragmon):
     name = models.CharField(max_length=20)
 
 
-class EnharmonicStaffPosition(Pragmon):
+class EnharmonicClefPosition(Pragmon):
     relative_staff = models.ForeignKey(Enharmonic, on_delete=models.RESTRICT)
     relative_enharmonic = models.ForeignKey(Enharmonic, on_delete=models.RESTRICT)
 
@@ -61,3 +61,8 @@ class Accidental(Pragmon):
 class Note(Pragmon):
     name = models.CharField(max_length=20)
     accidental = models.ForeignKey(Accidental, on_delete=models.RESTRICT)
+
+
+class EnharmonicEquivalence(Pragmon):
+    cell = models.ForeignKey(Enharmonic, on_delete=models.RESTRICT)
+    element = models.ForeignKey(Note, on_delete=models.RESTRICT)
