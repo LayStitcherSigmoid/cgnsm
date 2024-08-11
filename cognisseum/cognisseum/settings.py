@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     
     'administrarium',
     'harmonium',
+    'politeum',
 
     'django.contrib.admin',
     'django.contrib.auth',
