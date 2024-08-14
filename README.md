@@ -12,7 +12,7 @@ This is the app that serves music data.
 
 ### Goals
 
-I want the harmonium to become a personalized musical intelligence platform. 
+I want the harmonium to become an automated musical agent.
 
 #### Immediate Goals
 

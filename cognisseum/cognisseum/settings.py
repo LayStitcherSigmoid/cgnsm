@@ -34,9 +34,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     
-    'administrarium',
-    'harmonium',
-    'politeum',
+    'administrarium.apps.AdministrariumConfig',
+    'harmonium.apps.HarmoniumConfig',
+    'politeum.apps.PoliteumConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
