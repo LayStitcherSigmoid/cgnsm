@@ -1,5 +1,7 @@
 # The Cognisseum
 
+CURRENT VERSION: 0.001b
+
 This is a digital garden for the various things I'm interested in. 
 
 ## The Administrarium
