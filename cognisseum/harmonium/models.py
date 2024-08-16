@@ -39,11 +39,16 @@ class AccidentalSystem(Pragmon):
     name = models.CharField(max_length=50)
 
 
+class AccidentalDirection(Pragmon):
+    name = models.CharField(max_length=20)
+
+
 class Accidental(Pragmon):
     accidental_system = models.ForeignKey(AccidentalSystem, on_delete=models.RESTRICT)
     name = models.CharField(max_length=20)
     symbol = models.CharField(max_length=5)
     interval_mod = models.ForeignKey(Interval, on_delete=models.RESTRICT)
+    direction = models.ForeignKey(AccidentalDirection, on_delete=models.RESTRICT)
 
 
 class NoteName(Pragmon):
