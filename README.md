@@ -17,12 +17,15 @@ I want the harmonium to become an automated musical agent.
 #### Immediate Goals
 
 [ ] Add fixtures for current models
+
 [ ] Add scale formulas & scale functionality
+
 [ ] Add chord formulas & chord functionality
 
 #### Future Goals
 
 [ ] Add MusicXML storage
+
 [ ] Add MIDI file storage
 
 ## The Politeum
@@ -34,6 +37,7 @@ This is the app that serves data about people and places.
 #### Immediate Goals
 
 [ ] Add location model
+
 [ ] Add historical figure model
 
 ## The Pharmakeium
