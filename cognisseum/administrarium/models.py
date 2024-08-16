@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import uuid
 
 # Create your models here.
 
@@ -12,6 +13,7 @@ class Administrarion(AbstractUser):
 
 
 class Pragmon(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_created = models.ForeignKey(Administrarion, on_delete=models.RESTRICT, related_name="user_created")
     user_last_updated = models.ForeignKey(Administrarion, on_delete=models.RESTRICT, related_name="user_last_updated")
     time_created = models.DateTimeField(auto_now_add=True)

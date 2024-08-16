@@ -23,6 +23,7 @@ class TuningSystem(Pragmon):
 
 class IntervalQuality(Pragmon):
     name = models.CharField(max_length=20)
+    symbol = models.CharField(max_length=5)
     
 
 class Interval(Pragmon):
@@ -31,6 +32,7 @@ class Interval(Pragmon):
     denominator_mod = models.IntegerField(blank=True)
     name = models.CharField(max_length=10)
     quality = models.ForeignKey(IntervalQuality, on_delete=models.RESTRICT)
+    symbol = models.CharField(max_length=5)
 
 
 class AccidentalSystem(Pragmon):
