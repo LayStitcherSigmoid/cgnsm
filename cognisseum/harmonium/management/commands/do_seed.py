@@ -13,12 +13,16 @@ def curry_model(acc, ip):
         return model
     return inner
 
-
+def enh_curry(make):
+    def inner(cell, elem):
+        return make(EnharmonicEquivalence, cell=cell, elem=elem)
+    return inner
 
 def do_seed(prime):
     _ip = "127.0.0.1"
 
     make = curry_model(prime, _ip)
+    enh = enh_curry(make)
 
     octave = make(Equave, name="Octave", ratio=2)
     et = make(Temperament, name="Equal Temperament" has_step_basis=True, has_ratio_basis=False)
@@ -115,38 +119,72 @@ def do_seed(prime):
     cell_12 = make(Enharmonic, tuning_system=twelve_edo, chromatic_number=12)
 
     # cell_1: A Cell
-    make(EnharmonicEquivalence, cell=cell_1, element=a_nat)
+    enh(1, a_nat)
+    enh(1, b_dblflat)
+    enh(1, g_dblsharp)
 
     # cell_2: A# Cell
+    enh(2, b_flat)
+    enh(2, a_sharp)
+    enh(2, c_dblflat)
 
     # cell_3: B Cell
+    enh(3, c_flat)
+    enh(3, b_nat)
+    enh(3, a_dblsharp)
 
     # cell_4: C Cell
+    enh(4, d_dblflat)
+    enh(4, c_nat)
+    enh(4, b_sharp)
 
     # cell_5: C# Cell
+    enh(5, d_flat)
+    enh(5, c_sharp)
+    enh(5, b_dblsharp)
 
     # cell_6: D Cell
+    enh(6, e_dblflat)
+    enh(6, d_nat)
+    enh(6, c_dblsharp)
 
     # cell_7: D# Cell
+    enh(7, f_dblflat)
+    enh(7, e_flat)
+    enh(7, d_sharp)
 
     # cell_8: E Cell
+    enh(8, f_flat)
+    enh(8, e_nat)
+    enh(8, d_dblsharp)
 
     # cell_9: F Cell
+    enh(9, g_dblflat)
+    enh(9, f_nat)
+    enh(9, e_sharp)
 
     # cell_10: F# Cell
+    enh(10, g_flat)
+    enh(10, f_sharp)
+    enh(10, e_dblsharp)
 
     # cell_11: G Cell
+    enh(11, a_dblflat)
+    enh(11, g_nat)
+    enh(11, f_dblsharp)
 
     # cell_12: G# Cell
+    enh(12, g_sharp)
+    enh(12, a_flat)
 
 
 def safe_seed():
     try:
         prime = Administrarion.objects.get(username='Prime')
     except Exception as e:
-        pass
-    else:
-        do_seed(prime)
+        prime = make(Administrarion, username="Prime")
+    
+    do_seed(prime)
 
 
 class Command(BaseCommand):

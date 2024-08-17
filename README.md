@@ -10,38 +10,36 @@ This is the base app that handles authentications and standard bookkeeping.
 
 ## The Harmonium
 
-This is the app that serves music data.
-
-### Goals
-
-I want the harmonium to become an automated musical agent.
-
-#### Immediate Goals
-
-[ ] Add fixtures for current models
-
-[ ] Add scale formulas & scale functionality
-
-[ ] Add chord formulas & chord functionality
-
-#### Future Goals
-
-[ ] Add MusicXML storage
-
-[ ] Add MIDI file storage
+**Subject area:** Music
 
 ## The Politeum
 
-This is the app that serves data about people and places.
+**Subject area:** People, places, and culture
 
-### Goals
-
-#### Immediate Goals
-
-[ ] Add location model
-
-[ ] Add historical figure model
 
 ## The Pharmakeium
 
-This is the app that serves chemical and pharmacological data.
+**Subject area:** Chemistry, pharmacology, neuroscience
+
+### Citations
+
+```
+
+1. The Multiplicity of Serotonin Receptors: Uselessly diverse molecules or an embarrasment of riches?
+BL Roth, WK Kroeze, S Patel and E Lopez: The Neuroscientist, 6:252-262, 2000
+    
+2. Science Netwatch, {28 January 2000; 287 (5453)}.
+```
+
+## Theosynum
+
+**Subject area:** Religion
+
+## Idiosynum
+
+**Subject area:** Blogging, project tracking
+
+## Trivium
+
+**Subject area:** Memorization, quizzing, mental exercise
+
