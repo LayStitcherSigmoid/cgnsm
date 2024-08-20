@@ -10,6 +10,7 @@ class Country(Pragmon):
 class FirstLevelDivision(Pragmon):
     name = models.CharField(max_length=200)
     relative_country = models.ForeignKey(Country, on_delete=models.RESTRICT)
+    abbreviation = models.CharField(max_length=10)
 
 
 class SecondLevelDivision(Pragmon):

@@ -6,27 +6,15 @@
 
 ## Harmonium
 
-[ ] Make fixtures
-
-[ ] Make API endpoints
-
-## Politeum
-
-[ ] Make fixtures
-
-[ ] Make API endpoints
-
-    [ ] view_person
-
-    [ ] view_artifact_types
-
-    [ ] view_artifacts_of_type
-    
-    [ ] view_artifact
+## Idiosynum
 
 ## Pharmakeium
 
-## 
+## Politeum
+
+## Theosynum
+
+## Trivium
 
 # To Study
 
