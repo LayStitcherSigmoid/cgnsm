@@ -82,3 +82,13 @@ class EnharmonicEquivalence(Pragmon):
     element = models.ForeignKey(Note, on_delete=models.RESTRICT)
 
 
+class IntervalInverse(Pragmon):
+    first_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)
+    second_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)
+
+
+class EnharmonicIntervalAssignment(Pragmon):
+    relative_tuning = models.ForeignKey(TuningSystem, on_delete=models.RESTRICT)
+    first_note = models.ForeignKey(Note, on_delete=models.RESTRICT)
+    second_note = models.ForeignKey(Note, on_delete=models.RESTRICT)
+    relative_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)

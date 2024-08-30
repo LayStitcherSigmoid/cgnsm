@@ -1,4 +1,4 @@
-from harmonium.models import Equave, Temperament, TuningSystem, IntervalQuality, Interval, AccidentalSystem, Accidental, AccidentalDirection, NoteName, Note, Clef, Enharmonic, EnharmonicClefPosition, EnharmonicEquivalence
+from harmonium.models import Equave, Temperament, TuningSystem, IntervalQuality, Interval, AccidentalSystem, Accidental, AccidentalDirection, NoteName, Note, Clef, Enharmonic, EnharmonicClefPosition, EnharmonicEquivalence, IntervalInverse, EnharmonicIntervalAssignment
 from administrarium.models import Administrarion
 from django.core.management.base import BaseCommand, CommandError
 
@@ -13,9 +13,24 @@ def curry_model(acc, ip):
         return model
     return inner
 
-def enh_curry(make):
+def enh_curry(make_f):
     def inner(cell, elem):
-        return make(EnharmonicEquivalence, cell=cell, elem=elem)
+        return make_f(EnharmonicEquivalence, cell=cell, elem=elem)
+    return inner
+
+def interval_inverse_curry(make_f):
+    def inner(interval_1, interval_2):
+        first_relation = make_f(IntervalInverse, first_interval=interval_1, second_interval=interval_2)
+        second_relation = make_f(IntervalInverse, first_interval=interval_2, second_interval=interval_1)
+        return (first_relation, second_relation)
+    return inner
+
+def assign_interval_curry(make_f, tuning):
+    def inner(note_1, note_2, interval):
+        inverse_interval = IntervalInverse.objects.get(first_interval=interval).second_interval
+        first_relation = make_f(EnharmonicIntervalAssignment, relative_tuning=tuning, first_note=note_1, second_note=note_2, relative_interval=interval)
+        inverse_relation = make_f(EnharmonicIntervalAssignment, relative_tuning=tuning, first_note=note_2, second_note=note_1, relative_interval=inverse_interval)
+        return (first_relation, inverse_relation)
     return inner
 
 def do_seed(prime):
@@ -27,12 +42,15 @@ def do_seed(prime):
     octave = make(Equave, name="Octave", ratio=2)
     et = make(Temperament, name="Equal Temperament" has_step_basis=True, has_ratio_basis=False)
     twelve_edo = make(TuningSystem, name="12EDO", chromaticity=12, relative_temperament=et, relative_equave=octave)
-    
+
+    add_interval_inversion = interval_inverse_curry(make)
+    assign_twelve_edo_cell_intervals = assign_interval_curry(make, twelve_edo)
+
     perf_int = make(IntervalQuality, name="Perfect", symbol="P")
     minor_int = make(IntervalQuality, name="Minor", symbol="m")
     major_int = make(IntervalQuality, name="Major", symbol="M")
 
-    P0 = make(Interval, step_mod=0, numerator_mod=1, denominator_mod=1, name="Perfect Unison", quality=perf_int, symbol="0")
+    P1 = make(Interval, step_mod=0, numerator_mod=1, denominator_mod=1, name="Perfect Unison", quality=perf_int, symbol="1")
     m2 = make(Interval, step_mod=1, numerator_mod=16, denominator_mod=15, name="Minor Second", quality=minor_int, symbol="2")
     M2 = make(Interval, step_mod=2, numerator_mod=9, denominator_mod=8, name="Major Second", quality=major_int, symbol="2")
     m3 = make(Interval, step_mod=3, numerator_mod=6, denominator_mod=5, name="Minor Third", quality=minor_int, symbol="3")
@@ -45,11 +63,18 @@ def do_seed(prime):
     M7 = make(Interval, step_mod=11, numerator_mod=15, denominator_mod=8, name="Major Seventh", quality=major_int, symbol="7")
     P8 = make(Interval, step_mod=12, numerator_mod=2, denominator_mod=1, name="Perfect Octave", quality=perf_int, symbol="8")
 
+    add_interval_inversion(P1, P8)
+    add_interval_inversion(m2, M7)
+    add_interval_inversion(M2, m7)
+    add_interval_inversion(m3, M6)
+    add_interval_inversion(M3, m6)
+    add_interval_inversion(P5, P4)
+
     comprac = make(AccidentalSystem, name="Common Practice")
     upward = make(AccidentalDirection, name="Upward")
     downward = make(AccidentalDirection, name="Downward")
 
-    nat = make(Accidental, name="Natural", symbol="♮", interval_mod=P0, direction=upward, accidental_system=comprac)
+    nat = make(Accidental, name="Natural", symbol="♮", interval_mod=P1, direction=upward, accidental_system=comprac)
     sharp = make(Accidental, name="Sharp", symbol="#", interval_mod=m2, direction=upward, accidental_system=comprac)
     double_sharp = make(Accidental, name="Double Sharp", symbol="##", interval_mod=M2, direction=upward, accidental_system=comprac)
     flat = make(Accidental, name="Flat", symbol="b", interval_mod=m2, direction=downward, accidental_system=comprac)
@@ -104,6 +129,8 @@ def do_seed(prime):
     g_flat = make(Note, notg_name=g, relativg_accidental=flat, tuning_system=twelvg_edo)
     g_dblsharp = make(Note, notg_name=g, relativg_accidental=doublg_sharp, tuning_system=twelvg_edo)
     g_dblflat = make(Note, notg_name=g, relativg_accidental=doublg_flat, tuning_system=twelvg_edo)
+
+    assign_twelve_edo_cell_intervals(a_nat, a_sharp, m2)
 
     cell_1 = make(Enharmonic, tuning_system=twelve_edo, chromatic_number=1)
     cell_2 = make(Enharmonic, tuning_system=twelve_edo, chromatic_number=2)
@@ -176,6 +203,8 @@ def do_seed(prime):
     # cell_12: G# Cell
     enh(12, g_sharp)
     enh(12, a_flat)
+
+
 
 
 def safe_seed():
