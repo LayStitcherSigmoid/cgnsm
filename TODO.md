@@ -27,5 +27,6 @@
 - [Systematic Overview of Musical Scales (NewJazz)](https://www.youtube.com/watch?v=rvStGI_tn1o)
 - [7 Modes in a Simple Hand Grip (NewJazz)](https://www.youtube.com/watch?v=JHCxrlOBNOo)
 - [Poly Modal Improvisation (NewJazz)](https://www.youtube.com/watch?v=CHHUtT9trp8)
+- [Harmonic Minor Modes (NewJazz)](https://www.youtube.com/watch?v=1GIZ_p2TgP8)
 
 ## Books

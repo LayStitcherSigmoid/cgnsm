@@ -83,12 +83,30 @@ class EnharmonicEquivalence(Pragmon):
 
 
 class IntervalInverse(Pragmon):
-    first_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)
-    second_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)
+    first_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT, related_name="first_interval")
+    second_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT, related_name="second_interval")
 
 
 class EnharmonicIntervalAssignment(Pragmon):
     relative_tuning = models.ForeignKey(TuningSystem, on_delete=models.RESTRICT)
-    first_note = models.ForeignKey(Note, on_delete=models.RESTRICT)
-    second_note = models.ForeignKey(Note, on_delete=models.RESTRICT)
+    first_note = models.ForeignKey(Note, on_delete=models.RESTRICT, related_name="first_note")
+    second_note = models.ForeignKey(Note, on_delete=models.RESTRICT, related_name="second_note")
     relative_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)
+
+
+class ScaleFamily(Pragmon):
+    name = models.CharField(max_length=30)
+
+
+class ScaleStep(Pragmon):
+    name = models.CharField(max_length=30)
+    symbol = models.CharField(max_length=30)
+    relative_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT)
+
+
+class ScaleDegree(Pragmon):
+    mode_name = models.CharField(max_length=20)
+    order = models.IntegerField()
+    relative_step = models.ForeignKey(ScaleStep, on_delete=models.RESTRICT)
+
+
