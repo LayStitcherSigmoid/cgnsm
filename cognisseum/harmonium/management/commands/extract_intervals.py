@@ -12,8 +12,12 @@ eis = data_dir / "eis.csv"
 
 class CoOrd:
 
+    def __lt__(self, other):
+        return (((self[0]**2) + (self[1]**2))**1/2) < (((other[0]**2) + (other[1]**2))**1/2)
+
     def __invert__(self):
-        return self.inverse_to_topleft()
+        return self.inverse_to_transverse()
+
 
     def __neg__(self):
         return self.determine_topleft()
@@ -46,13 +50,58 @@ class CoOrd:
     def relative_to_topleft(self):
         return self.relative_to_other(self.determine_topleft())
 
+    def relative_to_transverse(self):
+        if self.is_above_transverse():
+            return self.relative_to_other(self.transverse_shadow())
+        else:
+            return self.transverse_shadow().relative_to_other(self)
+
+    def total_inverse(self):
+        return (self[1], self[0])
+
     def inverse_to_topleft(self):
         topleft = self.determine_topleft()
         diff = self.relative_to_topleft()
         return CoOrd(topleft[0] + diff[1], topleft[1] + diff[0])
 
     def determine_topleft(self):
-        return CoOrd(((self.t1 // self.width) * self.width) + 1, (self.t2 // self.height) * self.height)
+        if (self.t1 % 5) == 0:
+            t1 = self.t1 - 1
+        else:
+            t1 = self.t1
+        return CoOrd(((t1 // self.width) * self.width) + 1, (self.t2 // self.height) * self.height)
+
+    def is_above_transverse(self):
+        return self[0] < self[1]
+
+    def is_on_transverse(self):
+        return self[0] == self[1]
+
+    def is_within_transverse(self):
+        return self.determine_topleft().is_on_transverse()
+
+    def is_below_transverse(self):
+        return self[0] > self[1]
+
+    def offset_chunk_from_transverse(self):
+        return self.determine_topleft().relative_to_transverse()
+
+    def inverse_to_transverse(self):
+        chunk = self.offset_chunk_from_transverse()
+        print("CHUNK", chunk)
+        diff = self.relative_to_topleft()
+        shadow = self.transverse_shadow()
+        if self.is_below_transverse():
+            return CoOrd((chunk[0] - 1), shadow[1] + chunk[1])
+
+    def transverse_shadow(self):
+        if self.is_on_transverse():
+            return self
+        elif self.is_above_transverse():
+            return CoOrd(self[1], self[1])
+        elif self.is_below_transverse():
+            return CoOrd(self[0], self[0])
+
 
 
 class MatrixEntry:
@@ -71,6 +120,9 @@ class MatrixEntry:
 
 
 class HashMatrix:
+
+    def __len__(self):
+        return len(self.hash_xs)
 
     def __iter__(self):
         yield from self.hash_xs
@@ -116,6 +168,18 @@ def dedupe(xs):
     return ys
 
 
+class InverseMatrix:
+
+    def __repr__(self):
+        return f"{self.xs}"
+
+    def __init__(self, xs):
+        self.xs = {}
+        for x in xs:
+            if x[0] != x[1]:
+                self.xs |= {x[0]: x[1]}
+
+
 class Command(BaseCommand):
     help = "ETL for enharmonic interval spellings"
 
@@ -134,5 +198,9 @@ class Command(BaseCommand):
         max_y = max([x[1] for x in hash_matrix])
         least_y = min([x[1] for x in hash_matrix])
         random = CoOrd(randint(least_x, max_x), randint(least_y, max_y))
-        print(random, hash_matrix[random], -random, hash_matrix[-random], ~random, hash_matrix[~random])
-            
+        t = CoOrd(20, 7)
+        print(hash_matrix[t])
+        print(t.offset_chunk_from_transverse(), t.inverse_to_transverse())
+        print(hash_matrix[t.inverse_to_transverse()])
+        #i = InverseMatrix([(hash_matrix[x], hash_matrix[~x]) for x in hash_matrix if x.t2 != 0 and x.t1 != 35])
+        #print(i)
