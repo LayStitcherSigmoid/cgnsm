@@ -15,7 +15,7 @@ def curry_model(acc, ip):
 
 def enh_curry(make_f):
     def inner(cell, elem):
-        return make_f(EnharmonicEquivalence, cell=cell, elem=elem)
+        return make_f(EnharmonicEquivalence, cell=cell, element=elem)
     return inner
 
 def interval_inverse_curry(make_f):
@@ -40,7 +40,7 @@ def do_seed(prime):
     enh = enh_curry(make)
 
     octave = make(Equave, name="Octave", ratio=2)
-    et = make(Temperament, name="Equal Temperament" has_step_basis=True, has_ratio_basis=False)
+    et = make(Temperament, name="Equal Temperament", has_step_basis=True, has_ratio_basis=False)
     twelve_edo = make(TuningSystem, name="12EDO", chromaticity=12, relative_temperament=et, relative_equave=octave)
 
     add_interval_inversion = interval_inverse_curry(make)
@@ -236,17 +236,17 @@ def do_seed(prime):
     e_dblsharp = make(Note, note_name=e, relative_accidental=double_sharp, tuning_system=twelve_edo)
     e_dblflat = make(Note, note_name=e, relative_accidental=double_flat, tuning_system=twelve_edo)
 
-    f_nat = make(Note, notf_name=f, relative_accidental=nat, tuning_system=twelve_edo)
-    f_sharp = make(Note, notf_name=f, relative_accidental=sharp, tuning_system=twelve_edo)
-    f_flat = make(Note, notf_name=f, relative_accidental=flat, tuning_system=twelve_edo)
-    f_dblsharp = make(Note, notf_name=f, relative_accidental=doublf_sharp, tuning_system=twelve_edo)
-    f_dblflat = make(Note, notf_name=f, relative_accidental=doublf_flat, tuning_system=twelve_edo)
+    f_nat = make(Note, note_name=f, relative_accidental=nat, tuning_system=twelve_edo)
+    f_sharp = make(Note, note_name=f, relative_accidental=sharp, tuning_system=twelve_edo)
+    f_flat = make(Note, note_name=f, relative_accidental=flat, tuning_system=twelve_edo)
+    f_dblsharp = make(Note, note_name=f, relative_accidental=double_sharp, tuning_system=twelve_edo)
+    f_dblflat = make(Note, note_name=f, relative_accidental=double_flat, tuning_system=twelve_edo)
 
-    g_nat = make(Note, notg_name=g, relative_accidental=nat, tuning_system=twelve_edo)
-    g_sharp = make(Note, notg_name=g, relative_accidental=sharp, tuning_system=twelve_edo)
-    g_flat = make(Note, notg_name=g, relative_accidental=flat, tuning_system=twelve_edo)
-    g_dblsharp = make(Note, notg_name=g, relative_accidental=doublg_sharp, tuning_system=twelve_edo)
-    g_dblflat = make(Note, notg_name=g, relative_accidental=doublg_flat, tuning_system=twelve_edo)
+    g_nat = make(Note, note_name=g, relative_accidental=nat, tuning_system=twelve_edo)
+    g_sharp = make(Note, note_name=g, relative_accidental=sharp, tuning_system=twelve_edo)
+    g_flat = make(Note, note_name=g, relative_accidental=flat, tuning_system=twelve_edo)
+    g_dblsharp = make(Note, note_name=g, relative_accidental=double_sharp, tuning_system=twelve_edo)
+    g_dblflat = make(Note, note_name=g, relative_accidental=double_flat, tuning_system=twelve_edo)
 
     # THIS WAS ALL METAPROGRAMMED
     assign_twelve_edo_cell_intervals(a_flat, a_dblflat, d1)
@@ -860,70 +860,71 @@ def do_seed(prime):
     cell_12 = make(Enharmonic, tuning_system=twelve_edo, chromatic_number=12)
 
     # cell_1: A Cell
-    enh(1, a_nat)
-    enh(1, b_dblflat)
-    enh(1, g_dblsharp)
+    enh(cell_1, a_nat)
+    enh(cell_1, b_dblflat)
+    enh(cell_1, g_dblsharp)
 
     # cell_2: A# Cell
-    enh(2, b_flat)
-    enh(2, a_sharp)
-    enh(2, c_dblflat)
+    enh(cell_2, b_flat)
+    enh(cell_2, a_sharp)
+    enh(cell_2, c_dblflat)
 
     # cell_3: B Cell
-    enh(3, c_flat)
-    enh(3, b_nat)
-    enh(3, a_dblsharp)
+    enh(cell_3, c_flat)
+    enh(cell_3, b_nat)
+    enh(cell_3, a_dblsharp)
 
     # cell_4: C Cell
-    enh(4, d_dblflat)
-    enh(4, c_nat)
-    enh(4, b_sharp)
+    enh(cell_4, d_dblflat)
+    enh(cell_4, c_nat)
+    enh(cell_4, b_sharp)
 
     # cell_5: C# Cell
-    enh(5, d_flat)
-    enh(5, c_sharp)
-    enh(5, b_dblsharp)
+    enh(cell_5, d_flat)
+    enh(cell_5, c_sharp)
+    enh(cell_5, b_dblsharp)
 
     # cell_6: D Cell
-    enh(6, e_dblflat)
-    enh(6, d_nat)
-    enh(6, c_dblsharp)
+    enh(cell_6, e_dblflat)
+    enh(cell_6, d_nat)
+    enh(cell_6, c_dblsharp)
 
     # cell_7: D# Cell
-    enh(7, f_dblflat)
-    enh(7, e_flat)
-    enh(7, d_sharp)
+    enh(cell_7, f_dblflat)
+    enh(cell_7, e_flat)
+    enh(cell_7, d_sharp)
 
     # cell_8: E Cell
-    enh(8, f_flat)
-    enh(8, e_nat)
-    enh(8, d_dblsharp)
+    enh(cell_8, f_flat)
+    enh(cell_8, e_nat)
+    enh(cell_8, d_dblsharp)
 
     # cell_9: F Cell
-    enh(9, g_dblflat)
-    enh(9, f_nat)
-    enh(9, e_sharp)
+    enh(cell_9, g_dblflat)
+    enh(cell_9, f_nat)
+    enh(cell_9, e_sharp)
 
     # cell_10: F# Cell
-    enh(10, g_flat)
-    enh(10, f_sharp)
-    enh(10, e_dblsharp)
+    enh(cell_10, g_flat)
+    enh(cell_10, f_sharp)
+    enh(cell_10, e_dblsharp)
 
     # cell_11: G Cell
-    enh(11, a_dblflat)
-    enh(11, g_nat)
-    enh(11, f_dblsharp)
+    enh(cell_11, a_dblflat)
+    enh(cell_11, g_nat)
+    enh(cell_11, f_dblsharp)
 
     # cell_12: G# Cell
-    enh(12, g_sharp)
-    enh(12, a_flat)
+    enh(cell_12, g_sharp)
+    enh(cell_12, a_flat)
 
 
 def safe_seed():
     try:
         prime = Administrarion.objects.get(username='Prime')
     except Exception as e:
-        prime = make(Administrarion, username="Prime")
+        prime = Administrarion(username='Prime')
+        prime.save()
     
     do_seed(prime)
 
@@ -932,7 +933,7 @@ class Command(BaseCommand):
     help = "Closes the specified poll for voting"
 
     def add_arguments(self, parser):
-        parser.add_argument("poll_ids", nargs="+", type=int)
+        pass
 
     def handle(self, *args, **options):
         safe_seed()
