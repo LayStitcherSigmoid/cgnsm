@@ -8,8 +8,11 @@ def make_model(model, acc, ip, **kwargs):
 
 def curry_model(acc, ip):
     def inner(model, **kwargs):
-        model = make_model(model, acc, ip, **kwargs)
-        model.save()
+        try:
+            model = model.objects.get(**kwargs)
+        except Exception:
+            model = make_model(model, acc, ip, **kwargs)
+            model.save()
         return model
     return inner
 
