@@ -919,8 +919,6 @@ def do_seed(prime):
     enh(12, a_flat)
 
 
-
-
 def safe_seed():
     try:
         prime = Administrarion.objects.get(username='Prime')
