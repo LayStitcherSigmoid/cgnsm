@@ -27,10 +27,6 @@ class IntervalQuality(Pragmon):
     
 
 class Interval(Pragmon):
-    step_mod = models.IntegerField(blank=True)
-    numerator_mod = models.IntegerField(blank=True)
-    denominator_mod = models.IntegerField(blank=True)
-    name = models.CharField(max_length=10)
     quality = models.ForeignKey(IntervalQuality, on_delete=models.RESTRICT)
     symbol = models.CharField(max_length=5)
 
@@ -109,4 +105,8 @@ class ScaleDegree(Pragmon):
     order = models.IntegerField()
     relative_step = models.ForeignKey(ScaleStep, on_delete=models.RESTRICT)
 
+
+class EquivarationalRelation(Pragmon):
+    name = models.CharField(max_length=100)
+    relative_tuning = models.ForeignKey(TuningSystem, on_delete=models.RESTRICT)
 
