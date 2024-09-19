@@ -27,16 +27,25 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GRAPHENE = {
+    "SCHEMA": "cognisseum.schema.schema"
+}
 
 # Application definition
 
 INSTALLED_APPS = [
 
     'rest_framework',
+    "graphene_django",
+    "graphene_django_crud",
     
     'administrarium.apps.AdministrariumConfig',
     'harmonium.apps.HarmoniumConfig',
+    'idiosynum.apps.IdiosynumConfig',
+    'pharmakeium.apps.PharmakeiumConfig',
     'politeum.apps.PoliteumConfig',
+    'theosynum.apps.TheosynumConfig',
+    'trivium.apps.TriviumConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',

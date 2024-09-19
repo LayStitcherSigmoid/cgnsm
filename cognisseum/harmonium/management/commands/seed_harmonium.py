@@ -1,4 +1,4 @@
-from harmonium.models import Equave, Temperament, TuningSystem, IntervalQuality, Interval, AccidentalSystem, Accidental, AccidentalDirection, NoteName, Note, Clef, Enharmonic, EnharmonicClefPosition, EnharmonicEquivalence, IntervalInverse, EnharmonicIntervalAssignment
+from harmonium.models import Equave, Temperament, TuningSystem, IntervalQuality, Interval, AccidentalSystem, Accidental, AccidentalDirection, NoteName, Note, Clef, Enharmonic, EnharmonicClefPosition, EnharmonicEquivalence, IntervalInverse, EnharmonicIntervalAssignment, ScaleStep, ScaleDegree, ScaleFamily, ScaleStepIntervalRelation
 from administrarium.models import Administrarion
 from django.core.management.base import BaseCommand, CommandError
 
@@ -42,8 +42,8 @@ def do_seed(prime):
     make = curry_model(prime, _ip)
     enh = enh_curry(make)
 
-    octave = make(Equave, name="Octave", ratio=2)
-    et = make(Temperament, name="Equal Temperament", has_step_basis=True, has_ratio_basis=False)
+    octave = make(Equave, name="Octave")
+    et = make(Temperament, name="Equal Temperament")
     twelve_edo = make(TuningSystem, name="12EDO", chromaticity=12, relative_temperament=et, relative_equave=octave)
 
     add_interval_inversion = interval_inverse_curry(make)

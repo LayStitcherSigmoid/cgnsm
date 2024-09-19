@@ -5,13 +5,10 @@ from administrarium.models import Pragmon
 
 class Equave(Pragmon):
     name = models.CharField(max_length=20)
-    ratio = models.IntegerField()
 
 
 class Temperament(Pragmon):
     name = models.CharField(max_length=20)
-    has_step_basis = models.BooleanField()
-    has_ratio_basis = models.BooleanField()
 
 
 class TuningSystem(Pragmon):
@@ -104,6 +101,12 @@ class ScaleDegree(Pragmon):
     mode_name = models.CharField(max_length=20)
     order = models.IntegerField()
     relative_step = models.ForeignKey(ScaleStep, on_delete=models.RESTRICT)
+
+
+class ScaleStepIntervalRelation(Pragmon):
+    first_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT, related_name="source_interval")
+    relative_step = models.ForeignKey(ScaleStep, on_delete=models.RESTRICT)
+    second_interval = models.ForeignKey(Interval, on_delete=models.RESTRICT, related_name="target_interval")
 
 
 class EquivarationalRelation(Pragmon):
