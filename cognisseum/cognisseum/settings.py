@@ -27,16 +27,27 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GRAPHENE = {
+    "SCHEMA": "cognisseum.schema.schema",
+    "MIDDLEWARE": [
+        "graphql_jwt.middleware.JSONWebTokenMiddleware",
+    ],
+}
 
 # Application definition
 
 INSTALLED_APPS = [
 
     'rest_framework',
+    "graphene_django",
     
     'administrarium.apps.AdministrariumConfig',
     'harmonium.apps.HarmoniumConfig',
+    'idiosynum.apps.IdiosynumConfig',
+    'pharmakeium.apps.PharmakeiumConfig',
     'politeum.apps.PoliteumConfig',
+    'theosynum.apps.TheosynumConfig',
+    'trivium.apps.TriviumConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -66,6 +77,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 
 ROOT_URLCONF = 'cognisseum.urls'
 

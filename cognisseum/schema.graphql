@@ -1,0 +1,125 @@
+type Query {
+  postCategory(id: UUID!): PostCategoryType
+  allPostCategories: [PostCategoryType]
+  tag(id: UUID!): TagType
+  allTags: [TagType]
+  post(id: UUID!): PostType
+  allPosts: [PostType]
+  throughline(id: UUID!): ThroughlineType
+  allThroughlines: [ThroughlineType]
+  allBooks: [BookType]
+  bookByName(name: String!): BookType
+  bookByIsbn(isbn: String!): BookType
+  bookByAuthor(mononym: String, firstName: String, middleName: String, lastName: String): BookType
+  countries: [CountryType]
+  countryByName(name: String!): CountryType
+  countryById(name: String!): CountryType
+}
+
+type PostCategoryType {
+  id: UUID!
+  name: String!
+  parent: PostCategoryType
+}
+
+"""
+Leverages the internal Python implementation of UUID (uuid.UUID) to provide native UUID objects
+in fields, resolvers and input.
+"""
+scalar UUID
+
+type TagType {
+  id: UUID!
+  name: String!
+  relatedTags: [TagType]
+}
+
+type PostType {
+  id: UUID!
+  title: String!
+  category: PostCategoryType!
+  tags: [TagType]
+  throughlines: [ThroughlineType]
+  asymmetricallyRelatedPosts: [PostType]
+  symmetricallyRelatedPosts: [PostType]
+  body: String!
+}
+
+type ThroughlineType {
+  id: UUID!
+  name: String!
+  relatedTo: [ThroughlineType]
+}
+
+type BookType {
+  id: UUID!
+  title: String!
+  edition: String
+  isbn: String!
+}
+
+type CountryType {
+  id: UUID!
+  name: String!
+}
+
+type Mutation {
+  createPost(asymmetricallyRelatedPostIds: [UUID], body: String!, categoryId: UUID!, symmetricallyRelatedPostIds: [UUID], tagIds: [UUID], throughlineIds: [UUID], title: String!): CreatePost
+  updatePost(asymmetricallyRelatedPostIds: [UUID], body: String, categoryId: UUID, id: UUID!, symmetricallyRelatedPostIds: [UUID], tagIds: [UUID], throughlineIds: [UUID], title: String): UpdatePost
+  deletePost(id: UUID!): DeletePost
+  createThroughline(name: String!, relatedToIds: [UUID]): CreateThroughline
+  updateThroughline(id: UUID!, name: String, relatedToIds: [UUID]): UpdateThroughline
+  deleteThroughline(id: UUID!): DeleteThroughline
+  country: CountryType
+  ok: Boolean
+  book: BookType
+  authorship: AuthorshipType
+}
+
+type CreatePost {
+  post: PostType
+}
+
+type UpdatePost {
+  post: PostType
+}
+
+type DeletePost {
+  success: Boolean
+}
+
+type CreateThroughline {
+  throughline: ThroughlineType
+}
+
+type UpdateThroughline {
+  throughline: ThroughlineType
+}
+
+type DeleteThroughline {
+  success: Boolean
+}
+
+type AuthorshipType {
+  id: UUID!
+  author: PersonType!
+  date: Date
+  relevantBook: BookType!
+}
+
+type PersonType {
+  id: UUID!
+  firstName: String!
+  lastName: String!
+  mononym: String!
+  middleName: String!
+  birthDate: Date
+  deathDate: Date
+}
+
+"""
+The `Date` scalar type represents a Date
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar Date
