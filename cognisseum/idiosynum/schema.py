@@ -1,6 +1,6 @@
 import graphene
-from .ql_utils.queries import ThroughlineQuery, PostQuery, TagCategoryQuery
-from .ql_utils.muts import ThroughlineMutation, PostMutation
+from .ql.queries import ThroughlineQuery, PostQuery, TagCategoryQuery
+from .ql.muts import ThroughlineMutation, PostMutation
 
 class IdiosynumQuery(ThroughlineQuery, PostQuery, TagCategoryQuery, graphene.ObjectType):
     pass

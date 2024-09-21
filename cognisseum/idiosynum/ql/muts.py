@@ -1,9 +1,11 @@
-import graphene
-from graphene_django.types import DjangoObjectType
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import graphene
+from graphene_django.types import DjangoObjectType
 from idiosynum.models import Throughline, ThroughlineRelation
 from .types import ThroughlineType
+import cognisseum.utils.decorators as d
 
 class CreateThroughline(graphene.Mutation):
     class Arguments:
@@ -11,8 +13,10 @@ class CreateThroughline(graphene.Mutation):
         related_to_ids = graphene.List(graphene.UUID, required=False)
 
     throughline = graphene.Field(ThroughlineType)
+    ok = graphene.Boolean()
 
-    def mutate(self, info, name, related_to_ids=None):
+    @d.inject_session_data(do_prime=True)
+    def mutate(self, info, name, related_to_ids=None, *args, **kwargs):
         throughline = Throughline(name=name)
         throughline.save()
 
@@ -64,7 +68,9 @@ class ThroughlineMutation(graphene.ObjectType):
     update_throughline = UpdateThroughline.Field()
     delete_throughline = DeleteThroughline.Field()
 
-from idiosynum.models import Post, PostCategory, Tag, Throughline, DirectedPostRelation, SymmetricPostRelation
+from idiosynum.models import Tag
+
+from idiosynum.models import Post, PostCategory, DirectedPostRelation, SymmetricPostRelation
 from .types import PostType, TagType, ThroughlineType, PostCategoryType
 
 class CreatePost(graphene.Mutation):

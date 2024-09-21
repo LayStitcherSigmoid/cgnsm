@@ -80,11 +80,6 @@ class PostRelationToBook(Pragmon):
     relative_artifact = models.ForeignKey(Book, on_delete=models.RESTRICT)
 
 
-class PageSpecificNote(Pragmon):
-    book_relation = models.ForeignKey(PostRelationToBook, on_delete=models.RESTRICT)
-    page_number = models.IntegerField()
-
-
 class PostRelationToMolecule(Pragmon):
     relative_post = models.ForeignKey(Post, on_delete=models.RESTRICT)
     relative_molecule = models.ForeignKey(Molecule, on_delete=models.RESTRICT)
@@ -277,7 +272,7 @@ class BookGoal(Pragmon):
 
 
 class PageSpecificNote(Pragmon):
-    book_relation = models.ForeignKey(BookGoal, on_delete=models.RESTRICT)
+    book_relation = models.ForeignKey(Book, on_delete=models.RESTRICT)
     page_number = models.IntegerField()
 
 

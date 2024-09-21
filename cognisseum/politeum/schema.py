@@ -4,7 +4,6 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 from .forms import NewCountryForm
-from ipware import get_client_ip
 import datetime
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 import uuid

@@ -11,6 +11,10 @@ class Administrarion(AbstractUser):
     def __str__(self):
         return self.username
 
+    def delete(self, *args, **kwargs):
+        self.is_active = False
+        self.save()
+
 
 class Pragmon(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -2,13 +2,14 @@ import graphene
 from graphene_django import DjangoObjectType
 from politeum.schema import PoliteumMutation, PoliteumQuery
 from idiosynum.schema import IdiosynumMutation, IdiosynumQuery
+from administrarium.schema import AdministrariumMutation
 
 
 class Query(PoliteumQuery, IdiosynumQuery, graphene.ObjectType):
     pass
 
 
-class Mutation(PoliteumMutation, IdiosynumMutation, graphene.ObjectType):
+class Mutation(AdministrariumMutation, PoliteumMutation, IdiosynumMutation, graphene.ObjectType):
     pass
 
 
